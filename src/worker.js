@@ -3,7 +3,35 @@ const GATE_COOKIE_VALUE = '1';
 const GATE_COOKIE = GATE_COOKIE_NAME + '=' + GATE_COOKIE_VALUE;
 const GATE_COOKIE_MAX_AGE = 60 * 60 * 24 * 14; // 14 days
 
-const PUBLIC_PATHS = new Set(['/nda-gate.html', '/favicon.ico']);
+const ORDER_ONLINE_URL =
+  'https://order.toasttab.com/online/ardas-800-bustleton-pike';
+const GIFT_CARDS_URL =
+  'https://order.toasttab.com/egiftcards/ardas-800-bustleton-pike';
+const ORDER_REDIRECT_PATHS = new Set([
+  '/order',
+  '/order/',
+  '/order-online',
+  '/order-online/',
+]);
+const GIFT_CARDS_REDIRECT_PATHS = new Set([
+  '/gift-cards',
+  '/gift-cards/',
+  '/giftcards',
+  '/giftcards/',
+]);
+
+function isPublicPath(pathname) {
+  if (ORDER_REDIRECT_PATHS.has(pathname)) return true;
+  if (GIFT_CARDS_REDIRECT_PATHS.has(pathname)) return true;
+  if (pathname === '/favicon.ico') return true;
+  // Assets may serve nda-gate.html as /nda-gate (extensionless); allow both.
+  return (
+    pathname === '/nda-gate' ||
+    pathname === '/nda-gate/' ||
+    pathname === '/nda-gate.html' ||
+    pathname === '/nda-gate.html/'
+  );
+}
 
 function isGateEnabled(env) {
   return env.NDA_ENABLED === 'true';
@@ -55,6 +83,14 @@ export default {
   async fetch(request, env) {
     const url = new URL(request.url);
 
+    if (ORDER_REDIRECT_PATHS.has(url.pathname)) {
+      return Response.redirect(ORDER_ONLINE_URL, 302);
+    }
+
+    if (GIFT_CARDS_REDIRECT_PATHS.has(url.pathname)) {
+      return Response.redirect(GIFT_CARDS_URL, 302);
+    }
+
     if (url.pathname === '/api/gate-status' && request.method === 'GET') {
       const gateOn = isGateEnabled(env);
       const authenticated = !gateOn || hasGateCookie(request);
@@ -87,7 +123,7 @@ export default {
 
       if (!agreed) {
         return Response.json(
-          { ok: false, error: 'You must accept the NDA to continue' },
+          { ok: false, error: 'You must accept the terms to continue' },
           { status: 400, headers: securityHeaders() }
         );
       }
@@ -110,11 +146,11 @@ export default {
       });
     }
 
-    if (isGateEnabled(env) && !PUBLIC_PATHS.has(url.pathname)) {
+    if (isGateEnabled(env) && !isPublicPath(url.pathname)) {
       if (!hasGateCookie(request)) {
         const returnTo = encodeURIComponent(url.pathname + url.search);
         return Response.redirect(
-          new URL('/nda-gate.html?return=' + returnTo, url.origin),
+          new URL('/nda-gate?return=' + returnTo, url.origin),
           302
         );
       }

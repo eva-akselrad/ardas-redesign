@@ -23,11 +23,11 @@
         font-family: system-ui, sans-serif;
         background: var(--bg);
         color: var(--fg);
-        padding: 1.5rem;
-        line-height: 1.5;
+        padding: 1.5rem 1.25rem 2rem;
+        line-height: 1.55;
       }
       .wrap {
-        max-width: 32rem;
+        max-width: 36rem;
         margin: 0 auto;
       }
       h1 {
@@ -39,25 +39,53 @@
         color: var(--accent);
       }
       .lede {
-        margin: 0 0 1.25rem;
+        margin: 0 0 1rem;
         color: var(--muted);
         font-size: 0.9rem;
       }
-      .nda {
+      .legal {
         background: var(--card);
         border: 1px solid var(--border);
         border-radius: 0.75rem;
-        padding: 1rem 1.1rem;
-        font-size: 0.8125rem;
-        max-height: 14rem;
-        overflow: auto;
+        padding: 0.25rem 0 0.5rem;
         margin-bottom: 1rem;
       }
-      .nda p {
-        margin: 0 0 0.75rem;
+      .legal-scroll {
+        font-size: 0.8125rem;
+        max-height: min(22rem, 55vh);
+        overflow: auto;
+        padding: 0.85rem 1.1rem 1rem;
       }
-      .nda p:last-child {
-        margin-bottom: 0;
+      .legal-scroll h2 {
+        font-size: 0.9375rem;
+        font-weight: 600;
+        margin: 1.25rem 0 0.5rem;
+        color: var(--fg);
+      }
+      .legal-scroll h2:first-child {
+        margin-top: 0;
+      }
+      .legal-scroll h3 {
+        font-size: 0.8125rem;
+        font-weight: 600;
+        margin: 0.85rem 0 0.35rem;
+        color: var(--muted);
+      }
+      .legal-scroll p,
+      .legal-scroll ul {
+        margin: 0 0 0.65rem;
+      }
+      .legal-scroll ul {
+        padding-left: 1.2rem;
+      }
+      .legal-scroll li {
+        margin-bottom: 0.35rem;
+      }
+      .updated {
+        font-size: 0.75rem;
+        color: var(--muted);
+        padding: 0 1.1rem 0.65rem;
+        border-top: 1px solid var(--border);
       }
       label.field {
         display: block;
@@ -90,7 +118,8 @@
         margin-bottom: 1rem;
       }
       .check input {
-        margin-top: 0.2rem;
+        margin-top: 0.25rem;
+        flex-shrink: 0;
       }
       button {
         width: 100%;
@@ -125,20 +154,185 @@
   <body>
     <main class="wrap">
       <h1>Ardas <span class="mark">Social Kitchen</span></h1>
-      <p class="lede">Confidential website redesign preview</p>
+      <p class="lede">
+        Private preview of a website redesign. Read the terms below before entering.
+      </p>
 
-      <div class="nda" tabindex="0" aria-label="Non-disclosure agreement">
-        <p>
-          This preview is shared only for review of a work-in-progress website
-          redesign for Ardas Social Kitchen. The layouts, copy, branding, and
-          assets you see may change before public launch.
-        </p>
-        <p>
-          You agree not to copy, screenshot for distribution, or share access
-          credentials, URLs, or materials from this preview with anyone who has
-          not been authorized by the site owner. If you do not agree, close
-          this page.
-        </p>
+      <div class="legal">
+        <div class="legal-scroll" tabindex="0" aria-label="Legal terms">
+          <h2>1. Confidentiality &amp; non-disclosure</h2>
+          <p>
+            This preview site (the “Preview”) shows work-in-progress designs,
+            copy, menus, photography, branding, and other materials related to
+            Ardas Social Kitchen (the “Restaurant”) and its future public
+            website. The Preview is made available only to individuals who have
+            been given an access code by the Restaurant or its authorized
+            design and development team (collectively, the “Operator”).
+          </p>
+          <p>
+            By entering the Preview, you agree that all non-public information
+            you see here is <strong>Confidential Information</strong>. This
+            includes layouts, visual designs, logos, color palettes, typography,
+            menu items and prices shown for demonstration, placeholder or draft
+            text, internal notes, URLs, credentials, and any other material not
+            yet published to the general public.
+          </p>
+          <h3>Your obligations</h3>
+          <ul>
+            <li>
+              Use the Preview solely to review and provide feedback related to
+              the redesign, unless the Operator gives you written permission for
+              another purpose.
+            </li>
+            <li>
+              Do not copy, download, scrape, record, screenshot, photograph, or
+              otherwise reproduce Confidential Information for distribution,
+              social media, press, competing businesses, or any purpose outside
+              authorized review.
+            </li>
+            <li>
+              Do not share the Preview URL, access code, or contents with anyone
+              who has not accepted these terms and been authorized by the
+              Operator.
+            </li>
+            <li>
+              Take reasonable care to prevent unauthorized access from your
+              devices and accounts (for example, do not leave the Preview open
+              on shared screens).
+            </li>
+          </ul>
+          <h3>Exclusions &amp; term</h3>
+          <p>
+            Confidential Information does not include information that becomes
+            public through no fault of yours, that you already knew lawfully
+            without restriction, or that you receive from a third party without
+            breach of duty. Your confidentiality obligations continue until the
+            Restaurant publishes the relevant materials publicly or the
+            Operator tells you in writing that a specific item is no longer
+            confidential—whichever comes first for that item.
+          </p>
+          <p>
+            If you do not agree to these confidentiality terms, do not enter the
+            Preview.
+          </p>
+
+          <h2>2. Terms of use</h2>
+          <p>
+            The Preview is provided <strong>“as is”</strong> for evaluation only.
+            It is not the live customer-facing site, and content may be
+            incomplete, inaccurate, or change without notice.
+          </p>
+          <h3>Acceptable use</h3>
+          <ul>
+            <li>
+              Do not attempt to bypass security, probe systems, inject code,
+              overload the service, or interfere with other users’ access.
+            </li>
+            <li>
+              Do not use automated tools (bots, scrapers, bulk downloaders) on
+              the Preview without written permission.
+            </li>
+            <li>
+              Do not misrepresent your affiliation with the Restaurant or imply
+              that draft content reflects final menus, prices, hours, or
+              policies.
+            </li>
+          </ul>
+          <h3>Intellectual property</h3>
+          <p>
+            The Preview and all materials within it are owned by the Restaurant,
+            the Operator, or their licensors and are protected by copyright,
+            trademark, and other laws. No license or ownership rights are
+            granted to you except the limited right to view the Preview for
+            authorized review.
+          </p>
+          <h3>Disclaimer &amp; limitation</h3>
+          <p>
+            To the fullest extent permitted by law, the Operator disclaims all
+            warranties regarding the Preview. The Operator is not liable for
+            any indirect, incidental, or consequential damages arising from your
+            use of the Preview. If you are using the Preview on behalf of a
+            company, you represent that you have authority to bind that entity
+            to these terms.
+          </p>
+          <p>
+            The Operator may suspend or revoke access at any time, with or
+            without notice.
+          </p>
+
+          <h2>3. Privacy policy</h2>
+          <p>
+            This section describes how information is handled when you access
+            the Preview at <strong>ardas.evaakselrad.com</strong> and related
+            infrastructure.
+          </p>
+          <h3>Information we collect</h3>
+          <ul>
+            <li>
+              <strong>Access data:</strong> When you use the Preview, our hosting
+              provider (Cloudflare) and related systems may process your IP
+              address, browser type, device characteristics, timestamps, and
+              security logs. This is typical for web hosting, abuse prevention,
+              and reliability.
+            </li>
+            <li>
+              <strong>Access code:</strong> If you enter an access code, it is
+              transmitted securely over HTTPS and verified on the server. We do
+              not display or store your access code in page content after
+              submission.
+            </li>
+            <li>
+              <strong>Session cookie:</strong> After successful verification, a
+              short-lived cookie (“preview session”) is set so you are not
+              prompted on every page. It is HttpOnly and scoped to this site.
+            </li>
+            <li>
+              <strong>Feedback you send:</strong> If you email or message the
+              Operator with feedback, that communication is handled under
+              whatever channel you choose (not automatically collected by the
+              Preview itself).
+            </li>
+          </ul>
+          <h3>How we use information</h3>
+          <ul>
+            <li>To authenticate authorized viewers and enforce these terms.</li>
+            <li>To protect the Preview from abuse, attacks, and unauthorized access.</li>
+            <li>To maintain and improve the Preview and eventual public site.</li>
+          </ul>
+          <h3>Sharing</h3>
+          <p>
+            We do not sell your personal information. We may share limited
+            technical data with service providers (such as Cloudflare) that
+            process it on our behalf to operate the Preview, subject to their
+            policies and applicable law.
+          </p>
+          <h3>Retention &amp; security</h3>
+          <p>
+            Server and security logs are retained only as long as needed for
+            operations and protection, then deleted or aggregated. We use
+            industry-standard measures (HTTPS, access controls) but no method of
+            transmission or storage is completely secure.
+          </p>
+          <h3>Your choices</h3>
+          <p>
+            You can clear site cookies in your browser to end a preview session.
+            Because the Preview is optional and restricted, declining these
+            practices means you should not enter the site.
+          </p>
+          <h3>Children</h3>
+          <p>
+            The Preview is not directed to children under 13, and we do not
+            knowingly collect information from them through this gate.
+          </p>
+          <h3>Changes &amp; contact</h3>
+          <p>
+            We may update these terms for the Preview. Material changes will be
+            reflected on this page with an updated date. For privacy or access
+            questions, contact the Operator through the same channel that
+            provided your access code.
+          </p>
+        </div>
+        <p class="updated">Last updated: September 24, 2026</p>
       </div>
 
       <form id="gate-form">
@@ -146,7 +340,11 @@
 
         <label class="check">
           <input type="checkbox" id="agreed" name="agreed" required />
-          <span>I have read this notice and agree to keep this preview confidential.</span>
+          <span>
+            I have read and agree to the Confidentiality &amp; Non-Disclosure
+            terms, Terms of Use, and Privacy Policy above, and I will keep this
+            preview confidential.
+          </span>
         </label>
 
         <label class="field" for="password">Access code</label>
@@ -194,7 +392,9 @@
           errorEl.classList.remove('visible');
 
           if (!agreedInput.checked) {
-            showError('You must accept the confidentiality notice to continue.');
+            showError(
+              'You must accept the Confidentiality terms, Terms of Use, and Privacy Policy to continue.'
+            );
             return;
           }
 
