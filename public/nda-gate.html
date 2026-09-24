@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex, nofollow" />
+    <title>Confidential preview — Ardas Social Kitchen</title>
+    <style>
+      :root {
+        --bg: #1a1209;
+        --fg: #f5efe4;
+        --muted: #a89b88;
+        --accent: #d4a017;
+        --card: #241a0f;
+        --border: rgba(212, 160, 23, 0.25);
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        min-height: 100dvh;
+        font-family: system-ui, sans-serif;
+        background: var(--bg);
+        color: var(--fg);
+        padding: 1.5rem;
+        line-height: 1.5;
+      }
+      .wrap {
+        max-width: 32rem;
+        margin: 0 auto;
+      }
+      h1 {
+        font-size: 1.35rem;
+        font-weight: 600;
+        margin: 0 0 0.25rem;
+      }
+      .mark {
+        color: var(--accent);
+      }
+      .lede {
+        margin: 0 0 1.25rem;
+        color: var(--muted);
+        font-size: 0.9rem;
+      }
+      .nda {
+        background: var(--card);
+        border: 1px solid var(--border);
+        border-radius: 0.75rem;
+        padding: 1rem 1.1rem;
+        font-size: 0.8125rem;
+        max-height: 14rem;
+        overflow: auto;
+        margin-bottom: 1rem;
+      }
+      .nda p {
+        margin: 0 0 0.75rem;
+      }
+      .nda p:last-child {
+        margin-bottom: 0;
+      }
+      label.field {
+        display: block;
+        font-size: 0.75rem;
+        font-weight: 600;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+        color: var(--muted);
+        margin-bottom: 0.4rem;
+      }
+      input[type="password"] {
+        width: 100%;
+        padding: 0.7rem 0.85rem;
+        font: inherit;
+        color: var(--fg);
+        background: #120c06;
+        border: 1px solid var(--border);
+        border-radius: 0.5rem;
+        margin-bottom: 1rem;
+      }
+      input[type="password"]:focus {
+        outline: 2px solid var(--accent);
+        outline-offset: 1px;
+      }
+      .check {
+        display: flex;
+        gap: 0.6rem;
+        align-items: flex-start;
+        font-size: 0.875rem;
+        margin-bottom: 1rem;
+      }
+      .check input {
+        margin-top: 0.2rem;
+      }
+      button {
+        width: 100%;
+        padding: 0.85rem 1rem;
+        font: inherit;
+        font-weight: 600;
+        color: #1a1209;
+        background: var(--accent);
+        border: none;
+        border-radius: 0.5rem;
+        cursor: pointer;
+      }
+      button:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+      }
+      .error {
+        display: none;
+        margin-bottom: 1rem;
+        padding: 0.65rem 0.85rem;
+        font-size: 0.8125rem;
+        color: #fecaca;
+        background: rgba(239, 68, 68, 0.12);
+        border: 1px solid rgba(239, 68, 68, 0.35);
+        border-radius: 0.5rem;
+      }
+      .error.visible {
+        display: block;
+      }
+    </style>
+  </head>
+  <body>
+    <main class="wrap">
+      <h1>Ardas <span class="mark">Social Kitchen</span></h1>
+      <p class="lede">Confidential website redesign preview</p>
+
+      <div class="nda" tabindex="0" aria-label="Non-disclosure agreement">
+        <p>
+          This preview is shared only for review of a work-in-progress website
+          redesign for Ardas Social Kitchen. The layouts, copy, branding, and
+          assets you see may change before public launch.
+        </p>
+        <p>
+          You agree not to copy, screenshot for distribution, or share access
+          credentials, URLs, or materials from this preview with anyone who has
+          not been authorized by the site owner. If you do not agree, close
+          this page.
+        </p>
+      </div>
+
+      <form id="gate-form">
+        <div id="error" class="error" role="alert"></div>
+
+        <label class="check">
+          <input type="checkbox" id="agreed" name="agreed" required />
+          <span>I have read this notice and agree to keep this preview confidential.</span>
+        </label>
+
+        <label class="field" for="password">Access code</label>
+        <input
+          type="password"
+          id="password"
+          name="password"
+          autocomplete="current-password"
+          required
+        />
+
+        <button type="submit" id="submit">Enter preview</button>
+      </form>
+    </main>
+
+    <script>
+      (function () {
+        var params = new URLSearchParams(location.search);
+        var returnUrl = params.get('return') || '/';
+
+        fetch('/api/gate-status', { credentials: 'same-origin', cache: 'no-store' })
+          .then(function (res) {
+            return res.json();
+          })
+          .then(function (data) {
+            if (data.authenticated) {
+              window.location.replace(returnUrl);
+            }
+          })
+          .catch(function () {});
+
+        var form = document.getElementById('gate-form');
+        var passwordInput = document.getElementById('password');
+        var agreedInput = document.getElementById('agreed');
+        var submitBtn = document.getElementById('submit');
+        var errorEl = document.getElementById('error');
+
+        function showError(message) {
+          errorEl.textContent = message;
+          errorEl.classList.add('visible');
+        }
+
+        form.addEventListener('submit', function (e) {
+          e.preventDefault();
+          errorEl.classList.remove('visible');
+
+          if (!agreedInput.checked) {
+            showError('You must accept the confidentiality notice to continue.');
+            return;
+          }
+
+          submitBtn.disabled = true;
+          submitBtn.textContent = 'Checking…';
+
+          fetch('/api/gate-auth', {
+            method: 'POST',
+            credentials: 'same-origin',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              password: passwordInput.value,
+              agreed: agreedInput.checked,
+            }),
+          })
+            .then(function (res) {
+              return res.json().then(function (body) {
+                return { ok: res.ok, body: body };
+              });
+            })
+            .then(function (result) {
+              if (result.ok) {
+                window.location.href = returnUrl;
+                return;
+              }
+              showError(
+                (result.body && result.body.error) ||
+                  'Unable to verify access. Please try again.'
+              );
+              passwordInput.value = '';
+              passwordInput.focus();
+            })
+            .catch(function () {
+              showError('Unable to reach the server. Please try again.');
+            })
+            .finally(function () {
+              submitBtn.disabled = false;
+              submitBtn.textContent = 'Enter preview';
+            });
+        });
+      })();
+    </script>
+  </body>
+</html>

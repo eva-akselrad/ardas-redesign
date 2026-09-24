@@ -2,27 +2,30 @@
 
 Marketing site for **Ardas Social Kitchen**, a local Indian restaurant.
 
-- **Hosting:** [Cloudflare Pages](https://pages.cloudflare.com/)
-- **Status:** Scaffold only — full design and content plan coming soon.
+- **Preview URL:** https://ardas.evaakselrad.com (NDA + access code)
+- **Hosting:** Cloudflare Workers (static assets + edge gate)
+- **Status:** Scaffold — full design and content plan coming soon.
 
-## Local preview
-
-Open `public/index.html` in a browser, or serve the folder:
-
-```bash
-npx --yes serve public
-```
-
-## Deploy (Cloudflare)
-
-After `wrangler login`:
+## Local dev
 
 ```bash
-npx wrangler pages deploy public --project-name=ardas-social-kitchen
+npm install
+# Set preview password for local gate (optional; create .dev.vars with SITE_PASSWORD=...)
+npm run dev
 ```
 
-Adjust the project name in the Cloudflare dashboard if needed.
+## Deploy
 
-## Repo
+```bash
+npm run deploy
+```
 
-Local git repo at `ardas-redesign`. Add a remote when ready (GitHub, Cursor origin, etc.).
+Set or rotate the preview access code (Worker secret, not in git):
+
+```bash
+npx wrangler secret put SITE_PASSWORD
+```
+
+## Gate
+
+When `NDA_ENABLED` is `true`, visitors must accept the confidentiality notice and enter `SITE_PASSWORD` before viewing the site. Cookies last 14 days on the preview domain.
